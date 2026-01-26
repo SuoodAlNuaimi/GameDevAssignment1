@@ -43,6 +43,7 @@ namespace Platformer.Mechanics
 
         private InputAction m_MoveAction;
         private InputAction m_JumpAction;
+        private InputAction m_AttackAction;
 
         public Bounds Bounds => collider2d.bounds;
 
@@ -56,9 +57,11 @@ namespace Platformer.Mechanics
 
             m_MoveAction = InputSystem.actions.FindAction("Player/Move");
             m_JumpAction = InputSystem.actions.FindAction("Player/Jump");
+            m_AttackAction = InputSystem.actions.FindAction("Player/Attack");
             
             m_MoveAction.Enable();
             m_JumpAction.Enable();
+            m_AttackAction.Enable();
         }
 
         protected override void Update()
