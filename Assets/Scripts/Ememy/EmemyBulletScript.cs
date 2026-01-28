@@ -6,6 +6,7 @@ public class EmemyBulletScript : MonoBehaviour
     private GameObject player;
     private Rigidbody2D rb;
     public float force;
+    private float timer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,6 +24,22 @@ public class EmemyBulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        timer += Time.deltaTime;
+
+        if (timer>10)
+        {
+            Destroy(gameObject); 
+        }
     }
+
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("KnightPlayer"))
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
 }
