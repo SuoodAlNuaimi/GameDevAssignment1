@@ -114,7 +114,11 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
+<<<<<<< Updated upstream
   spriteMeshType: 0
+=======
+  spriteMeshType: 1
+>>>>>>> Stashed changes
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -323,6 +327,7 @@ TextureImporter:
       name: oak_woods_tileset_7
       rect:
         serializedVersion: 2
+<<<<<<< Updated upstream
         x: 168
         y: 264
         width: 23
@@ -330,6 +335,15 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 4, y: 4, z: 4, w: 5}
+=======
+        x: 120
+        y: 216
+        width: 72
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+>>>>>>> Stashed changes
       customData: 
       outline: []
       physicsShape: []
@@ -675,7 +689,11 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
+<<<<<<< Updated upstream
     spriteID: 409102b9de3bf5541b8f7ff5aef11a19
+=======
+    spriteID: efe4cbc9f947a0342bab1774dd0d7494
+>>>>>>> Stashed changes
     internalID: 0
     vertices: []
     indices: 
