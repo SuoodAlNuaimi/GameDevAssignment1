@@ -36,7 +36,7 @@
                 {
                     "name": "Attack",
                     "type": "Button",
-                    "id": "72ebae88-28a5-4e86-ba1a-4ef10d36439a",
+                    "id": "25b30be9-d3bb-495f-a50a-3539d6d87abe",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -233,22 +233,22 @@
                 },
                 {
                     "name": "",
-                    "id": "fcde0722-028a-455f-bd01-81e717fa2752",
-                    "path": "<Mouse>/leftButton",
+                    "id": "816785d6-725a-463d-bc0e-0c37c4c04938",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "98c24a37-5948-4c1a-b490-7f2e7d0ef42a",
-                    "path": "<Gamepad>/buttonWest",
+                    "id": "45c3ca22-2998-4f37-9d7c-bb011e488846",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Gamepad",
                     "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -766,6 +766,45 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Attack",
+            "id": "cc827076-d7cf-4a3a-81c6-92a0839d3914",
+            "actions": [
+                {
+                    "name": "Attack",
+                    "type": "PassThrough",
+                    "id": "2e306166-4f41-4956-be7e-f49719de2293",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "73a36d44-e2c8-420a-93be-bb35ea1a9870",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4902ea91-c39d-41d8-87a7-f2a6865c6e89",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

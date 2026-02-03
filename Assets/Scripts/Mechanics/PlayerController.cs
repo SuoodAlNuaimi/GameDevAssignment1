@@ -15,6 +15,8 @@ namespace Platformer.Mechanics
     /// </summary>
     public class PlayerController : KinematicObject
     {
+
+
         public AudioClip jumpAudio;
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
@@ -47,6 +49,30 @@ namespace Platformer.Mechanics
 
         public Bounds Bounds => collider2d.bounds;
 
+        protected override void Start()
+            {
+                base.Start(); 
+
+                if (UserInput.instance == null)
+                    {
+                        Debug.LogError("UserInput is missing from the scene!");
+                        enabled = false;
+                        return;
+                    }
+
+                var controls = UserInput.instance.controls;
+
+                m_MoveAction   = controls.Player.Move;
+                m_JumpAction   = controls.Player.Jump;
+                m_AttackAction = controls.Player.Attack;
+
+                m_MoveAction.Enable();
+                m_JumpAction.Enable();
+                m_AttackAction.Enable();
+            }
+
+
+
         void Awake()
         {
             health = GetComponent<Health>();
@@ -54,15 +80,8 @@ namespace Platformer.Mechanics
             collider2d = GetComponent<Collider2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
-
-            m_MoveAction = InputSystem.actions.FindAction("Player/Move");
-            m_JumpAction = InputSystem.actions.FindAction("Player/Jump");
-            m_AttackAction = InputSystem.actions.FindAction("Player/Attack");
-            
-            m_MoveAction.Enable();
-            m_JumpAction.Enable();
-            m_AttackAction.Enable();
         }
+
 
         protected override void Update()
         {
