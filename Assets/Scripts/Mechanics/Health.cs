@@ -10,10 +10,14 @@ namespace Platformer.Mechanics
     /// </summary>
     public class Health : MonoBehaviour
     {
+
+        public HealthBar healthBar;
+
+
         /// <summary>
         /// The maximum hit points for the entity.
         /// </summary>
-        public int maxHP = 1;
+        public int maxHP = 3;
 
         /// <summary>
         /// Indicates if the entity should be considered 'alive'.
@@ -28,7 +32,11 @@ namespace Platformer.Mechanics
         public void Increment()
         {
             currentHP = Mathf.Clamp(currentHP + 1, 0, maxHP);
+
+            if (healthBar != null)
+                healthBar.SetHealth(currentHP);
         }
+
 
         /// <summary>
         /// Decrement the HP of the entity. Will trigger a HealthIsZero event when
@@ -37,12 +45,17 @@ namespace Platformer.Mechanics
         public void Decrement()
         {
             currentHP = Mathf.Clamp(currentHP - 1, 0, maxHP);
+
+            if (healthBar != null)
+                healthBar.SetHealth(currentHP);
+
             if (currentHP == 0)
             {
                 var ev = Schedule<HealthIsZero>();
                 ev.health = this;
             }
         }
+
 
         /// <summary>
         /// Decrement the HP of the entitiy until HP reaches 0.
@@ -55,6 +68,10 @@ namespace Platformer.Mechanics
         void Awake()
         {
             currentHP = maxHP;
+            if (healthBar != null)
+            {
+                healthBar.SetMaxHealth(maxHP);
+            }
         }
     }
 }
