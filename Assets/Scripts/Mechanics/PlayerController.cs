@@ -17,6 +17,21 @@ namespace Platformer.Mechanics
     {
 
 
+        [Header("Dash")]
+        public float dashSpeed = 20f;
+        public float dashTime = 0.2f;
+        public float dashCooldown = 0.5f;
+        public int startDashCount = 1;
+
+        private int dashCount;
+        private bool isDashing;
+        private float dashTimer;
+        private float dashCooldownTimer;
+
+        private InputAction m_DashAction;
+
+
+
         public AudioClip jumpAudio;
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
@@ -65,10 +80,14 @@ namespace Platformer.Mechanics
                 m_MoveAction   = controls.Player.Move;
                 m_JumpAction   = controls.Player.Jump;
                 m_AttackAction = controls.Player.Attack;
+                m_DashAction = controls.Player.Dash;
 
+                m_DashAction.Enable();
                 m_MoveAction.Enable();
                 m_JumpAction.Enable();
                 m_AttackAction.Enable();
+
+                dashCount = startDashCount;
             }
 
 
@@ -88,6 +107,12 @@ namespace Platformer.Mechanics
             if (controlEnabled)
             {
                 move.x = m_MoveAction.ReadValue<Vector2>().x;
+
+                if (m_DashAction.WasPressedThisFrame() && dashCount > 0 && !isDashing)
+                {
+                    StartDash();
+                }
+                
                 if (jumpState == JumpState.Grounded && m_JumpAction.WasPressedThisFrame())
                     jumpState = JumpState.PrepareToJump;
                 else if (m_JumpAction.WasReleasedThisFrame())
@@ -102,7 +127,10 @@ namespace Platformer.Mechanics
             }
             
             UpdateJumpState();
+            UpdateDash();
             base.Update();
+
+
         }
 
         void UpdateJumpState()
@@ -135,8 +163,36 @@ namespace Platformer.Mechanics
             }
         }
 
+        void StartDash()
+        {
+            isDashing = true;
+            dashTimer = dashTime;
+            dashCount--;
+
+            float direction = spriteRenderer.flipX ? -1f : 1f;
+            velocity = new Vector2(direction * dashSpeed, 0);
+        }
+
+        void UpdateDash()
+        {
+            if (!isDashing) return;
+
+            dashTimer -= Time.deltaTime;
+            if (dashTimer <= 0f)
+            {
+                isDashing = false;
+            }
+        }
+
+
         protected override void ComputeVelocity()
         {
+            if (isDashing)
+            {
+                targetVelocity = velocity;
+                return;
+            }
+
             if (jump && IsGrounded)
             {
                 velocity.y = jumpTakeOffSpeed * model.jumpModifier;
@@ -160,6 +216,17 @@ namespace Platformer.Mechanics
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
 
             targetVelocity = move * maxSpeed;
+
+            if (IsGrounded && dashCount < startDashCount)
+            {
+                dashCooldownTimer += Time.deltaTime;
+                if (dashCooldownTimer >= dashCooldown)
+                {
+                    dashCount = startDashCount;
+                    dashCooldownTimer = 0f;
+                }
+            }
+
         }
 
         public enum JumpState
@@ -170,7 +237,6 @@ namespace Platformer.Mechanics
             InFlight,
             Landed
         }
-
 
 
     }
