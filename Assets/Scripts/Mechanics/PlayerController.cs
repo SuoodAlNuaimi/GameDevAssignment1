@@ -100,6 +100,7 @@ namespace Platformer.Mechanics
             {
                 move.x = 0;
             }
+            
             UpdateJumpState();
             base.Update();
         }
@@ -169,5 +170,8 @@ namespace Platformer.Mechanics
             InFlight,
             Landed
         }
+
+
+
     }
 }
