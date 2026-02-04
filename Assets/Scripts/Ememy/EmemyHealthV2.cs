@@ -5,6 +5,9 @@ public class EmemyHealthV2 : MonoBehaviour, IDamgeable
 
     public void Damage(float damageAmount)
     {
+
+        HasTakenDamage = true;
+
         currentHealth -= damageAmount;
 
         if (currentHealth <= 0)
@@ -21,6 +24,8 @@ public class EmemyHealthV2 : MonoBehaviour, IDamgeable
     [SerializeField] private float maxHealth = 3f;
 
     private float currentHealth;
+
+    public bool HasTakenDamage { get; set;}
 
     private void Start()
     {
