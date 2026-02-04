@@ -88,7 +88,7 @@ public class PlayerAttack : MonoBehaviour
 
                 if ( iDamgeable != null && !iDamgeable.HasTakenDamage)
                 {
-                    iDamgeable.Damage(damageAmount);
+                    iDamgeable.Damage(damageAmount, transform.right);
                     iDamgeables.Add(iDamgeable);
                 }
             }
