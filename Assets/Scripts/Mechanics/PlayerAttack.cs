@@ -13,6 +13,7 @@ public class PlayerAttack : MonoBehaviour
     public bool ShouldBeDamaging { get; private set; } = false;
 
     private List<IDamgeable> iDamgeables = new List<IDamgeable>();
+    private List<IDeflectable> iDeflectables = new List<IDeflectable>();
 
 
     private RaycastHit2D[] hits;
@@ -88,8 +89,18 @@ public class PlayerAttack : MonoBehaviour
 
                 if ( iDamgeable != null && !iDamgeable.HasTakenDamage)
                 {
-                    iDamgeable.Damage(damageAmount, transform.right);
+                    iDamgeable.Damage(damageAmount);
                     iDamgeables.Add(iDamgeable);
+                }
+
+                IDeflectable iDeflectable = hits[i].collider.gameObject.GetComponent<IDeflectable>();
+
+                if (iDeflectable != null && !iDeflectables.Contains(iDeflectable))
+                {
+                    Vector2 deflectDir = (hits[i].transform.position - transform.position).normalized;
+                    iDeflectable.deflect(deflectDir);
+
+                    iDeflectables.Add(iDeflectable);
                 }
             }
 
@@ -97,12 +108,12 @@ public class PlayerAttack : MonoBehaviour
 
         }
 
-        ReturnAttackables();
+        ReturnAttackablesAndDeflectables();
         
     }
 
 
-    public void ReturnAttackables()
+    public void ReturnAttackablesAndDeflectables()
     {
         foreach (IDamgeable thingWasDamaged in iDamgeables)
         {
@@ -110,6 +121,7 @@ public class PlayerAttack : MonoBehaviour
         }
 
         iDamgeables.Clear();
+        iDeflectables.Clear();
     }
 
     private void OnDrawGizmosSelected()

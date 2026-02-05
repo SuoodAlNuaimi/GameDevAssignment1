@@ -8,10 +8,13 @@ namespace Platformer.Mechanics
     /// <summary>
     /// Represebts the current vital statistics of some game entity.
     /// </summary>
-    public class Health : MonoBehaviour
+    public class Health : MonoBehaviour,IDamgeable
     {
 
         public HealthBar healthBar;
+
+        private bool hasTakenDamage;
+
 
 
         /// <summary>
@@ -73,5 +76,38 @@ namespace Platformer.Mechanics
                 healthBar.SetMaxHealth(maxHP);
             }
         }
+
+        public void Damage(float damageAmount)
+        {
+            if (hasTakenDamage) return; // prevents multiple hits per frame
+
+            hasTakenDamage = true;
+
+            currentHP -= Mathf.RoundToInt(damageAmount);
+
+            if (healthBar != null)
+                healthBar.SetHealth(currentHP);
+
+            if (currentHP <= 0)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+
+        public bool HasTakenDamage { get; set; }
+
+
+
+        public bool GetHasTakenDamage()
+        {
+            return hasTakenDamage;
+        }
+
+        public void SetHasTakenDamage(bool value)
+        {
+            hasTakenDamage = value;
+        }
+
+
     }
 }

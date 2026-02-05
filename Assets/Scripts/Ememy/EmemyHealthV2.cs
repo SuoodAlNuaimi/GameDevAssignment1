@@ -3,14 +3,14 @@ using UnityEngine;
 public class EmemyHealthV2 : MonoBehaviour, IDamgeable
 {
 
-    public void Damage(float damageAmount, Vector2 attackDirection)
+    public void Damage(float damageAmount)
     {
 
         HasTakenDamage = true;
 
         currentHealth -= damageAmount;
 
-        SpawnDamageParticles(attackDirection); 
+        SpawnDamageParticles(); 
 
         if (currentHealth <= 0)
         {
@@ -43,10 +43,8 @@ public class EmemyHealthV2 : MonoBehaviour, IDamgeable
         healthBar = GetComponentInChildren<EmemyHealthBar>();
     } 
 
-    private void SpawnDamageParticles(Vector2 attackDirection)
+    private void SpawnDamageParticles()
     {
-        Quaternion spawnRotation = Quaternion.FromToRotation(Vector2.right, attackDirection);
-
-        damageParticleInstance = Instantiate(damageParticles, transform.position, spawnRotation);
+        damageParticleInstance = Instantiate(damageParticles, transform.position, Quaternion.identity);
     }
 }

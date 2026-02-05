@@ -12,6 +12,15 @@ public class EmemyShoot : MonoBehaviour
 
     private Rigidbody2D bulletRB;
 
+    private EmemyProjectile ememyProjectile;
+
+    private Collider2D coll;
+
+    private void Start()
+    {
+        coll = GetComponent<Collider2D>();
+    }
+
     private void Update()
     {
         //update timer
@@ -32,7 +41,20 @@ public class EmemyShoot : MonoBehaviour
         //spawn a bullet
         bulletRB = Instantiate(bulletPrefab, transform.position, transform.rotation);
 
+        bulletRB.transform.right = GetShootDir();
+
         bulletRB.linearVelocity = bulletRB.transform.right * bulletSpeed;
+
+        ememyProjectile = bulletRB.gameObject.GetComponent<EmemyProjectile>();
+
+        ememyProjectile.EmemyColl = coll;
+    }
+
+    public Vector2 GetShootDir()
+    {
+        Transform playerTrans = GameObject.FindGameObjectWithTag("KnightPlayer").transform;
+
+        return (playerTrans.position - transform.position).normalized;
     }
 
 }
