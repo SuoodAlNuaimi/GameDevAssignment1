@@ -1,9 +1,13 @@
 using UnityEngine;
+using Platformer.Mechanics;
+
 
 public class EmemyProjectile : MonoBehaviour, IDeflectable
 {
 
     private Rigidbody2D rb;
+    private bool hasHit = false;
+
 
     public void deflect(Vector2 direction)
     {
@@ -31,6 +35,34 @@ public class EmemyProjectile : MonoBehaviour, IDeflectable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
+        Debug.Log("Hit: " + collision.name);
+
+        PlayerController player = collision.GetComponent<PlayerController>();
+
+
+        if (player != null)
+            {
+                // PLAYER HIT
+                if (player.IsBlocking)
+                {
+                    // BLOCKED → DESTROY ARROW, NO DAMAGE
+                    Destroy(gameObject);
+                    return;
+                }
+
+                // NOT BLOCKING → DAMAGE PLAYER
+                iDamageable = collision.GetComponent<IDamgeable>();
+                if (iDamageable != null)
+                {
+                    iDamageable.Damage(damageAmount);
+                }
+
+                Destroy(gameObject);
+                return;
+            }
+
+
         iDamageable = collision.gameObject.GetComponent<IDamgeable>();
         if (iDamageable != null)
         {

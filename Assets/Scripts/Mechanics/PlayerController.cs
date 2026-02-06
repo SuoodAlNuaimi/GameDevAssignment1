@@ -61,6 +61,8 @@ namespace Platformer.Mechanics
         private InputAction m_MoveAction;
         private InputAction m_JumpAction;
         private InputAction m_AttackAction;
+        private InputAction m_BlockAction;
+
 
         public Bounds Bounds => collider2d.bounds;
 
@@ -76,12 +78,16 @@ namespace Platformer.Mechanics
                     }
 
                 var controls = UserInput.instance.controls;
+                
 
                 m_MoveAction   = controls.Player.Move;
                 m_JumpAction   = controls.Player.Jump;
                 m_AttackAction = controls.Player.Attack;
                 m_DashAction = controls.Player.Dash;
+                m_BlockAction = controls.Player.Block;
 
+                
+                m_BlockAction.Enable();
                 m_DashAction.Enable();
                 m_MoveAction.Enable();
                 m_JumpAction.Enable();
@@ -102,11 +108,20 @@ namespace Platformer.Mechanics
         }
 
 
+
+        public bool IsBlocking
+            {
+                get { return animator.GetBool("isBlocking"); }
+            }
+
+
         protected override void Update()
         {
             if (controlEnabled)
             {
                 move.x = m_MoveAction.ReadValue<Vector2>().x;
+
+                animator.SetBool("isBlocking", m_BlockAction.IsPressed());
 
                 if (m_DashAction.WasPressedThisFrame() && dashCount > 0 && !isDashing)
                 {
