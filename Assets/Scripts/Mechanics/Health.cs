@@ -12,8 +12,11 @@ namespace Platformer.Mechanics
     {
 
         public HealthBar healthBar;
+        public AudioClip damageSound;
+        private AudioSource audioSource;
 
-        private bool hasTakenDamage;
+
+        //private bool hasTakenDamage;
 
 
 
@@ -71,17 +74,22 @@ namespace Platformer.Mechanics
         void Awake()
         {
             currentHP = maxHP;
+
+            audioSource = GetComponent<AudioSource>();
+
             if (healthBar != null)
-            {
                 healthBar.SetMaxHealth(maxHP);
-            }
         }
+
 
         public void Damage(float damageAmount)
         {
-            if (hasTakenDamage) return; // prevents multiple hits per frame
+            //if (hasTakenDamage) return; // prevents multiple hits per frame
 
-            hasTakenDamage = true;
+            //hasTakenDamage = true;
+
+            if (audioSource != null && damageSound != null)
+                audioSource.PlayOneShot(damageSound);
 
             currentHP -= Mathf.RoundToInt(damageAmount);
 
@@ -90,15 +98,25 @@ namespace Platformer.Mechanics
 
             if (currentHP <= 0)
             {
-                gameObject.SetActive(false);
+                var ev = Schedule<HealthIsZero>();
+                ev.health = this;
             }
         }
 
-        public bool HasTakenDamage { get; set; }
+        public void ResetHealth()
+        {
+            currentHP = maxHP;
+
+            if (healthBar != null)
+                healthBar.SetHealth(currentHP);
+        }
+
+
+        //public bool HasTakenDamage { get; set; }
 
 
 
-        public bool GetHasTakenDamage()
+        /*public bool GetHasTakenDamage()
         {
             return hasTakenDamage;
         }
@@ -106,7 +124,7 @@ namespace Platformer.Mechanics
         public void SetHasTakenDamage(bool value)
         {
             hasTakenDamage = value;
-        }
+        }*/
 
 
     }

@@ -114,6 +114,17 @@ namespace Platformer.Mechanics
                 get { return animator.GetBool("isBlocking"); }
             }
 
+        public bool IsFacing(Vector2 sourcePosition)
+        {
+            float dirToSource = sourcePosition.x - transform.position.x;
+
+            // if flipX == false → facing right
+            // if flipX == true  → facing left
+            return (dirToSource > 0 && !spriteRenderer.flipX) ||
+                (dirToSource < 0 && spriteRenderer.flipX);
+        }
+
+
 
         protected override void Update()
         {

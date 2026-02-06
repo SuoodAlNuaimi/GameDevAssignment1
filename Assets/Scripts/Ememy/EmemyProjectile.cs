@@ -36,7 +36,8 @@ public class EmemyProjectile : MonoBehaviour, IDeflectable
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        Debug.Log("Hit: " + collision.name);
+        if (hasHit) return; // 🔒 prevent multiple hits
+            hasHit = true;
 
         PlayerController player = collision.GetComponent<PlayerController>();
 
@@ -52,10 +53,10 @@ public class EmemyProjectile : MonoBehaviour, IDeflectable
                 }
 
                 // NOT BLOCKING → DAMAGE PLAYER
-                iDamageable = collision.GetComponent<IDamgeable>();
-                if (iDamageable != null)
+                IDamgeable dmg = collision.GetComponent<IDamgeable>();
+                if (dmg != null)
                 {
-                    iDamageable.Damage(damageAmount);
+                    dmg.Damage(damageAmount);
                 }
 
                 Destroy(gameObject);

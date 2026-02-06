@@ -7,6 +7,7 @@ TagManager:
   - TutorialRequirement
   - KnightPlayer
   - Shield
+  - Enemy
   layers:
   - Default
   - TransparentFX

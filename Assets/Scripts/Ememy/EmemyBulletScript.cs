@@ -1,7 +1,11 @@
 using UnityEngine;
+using Platformer.Mechanics;
+
 
 public class EmemyBulletScript : MonoBehaviour
 {
+
+    private Collider2D shooterCollider;
 
     private GameObject player;
     private Rigidbody2D rb;
@@ -14,12 +18,23 @@ public class EmemyBulletScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("KnightPlayer");
 
-        Vector3 direction = player.transform.position - transform.position;
-        rb.linearVelocity = new Vector2(direction.x,direction.y).normalized * force;
+        shooterCollider = GetComponentInParent<Collider2D>();
 
-        float rot = Mathf.Atan2(-direction.y,-direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0,0,rot+180);
+        if (shooterCollider != null)
+        {
+            Physics2D.IgnoreCollision(
+                GetComponent<Collider2D>(),
+                shooterCollider
+            );
+        }
+
+        Vector3 direction = player.transform.position - transform.position;
+        rb.linearVelocity = direction.normalized * force;
+
+        float rot = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, rot + 180);
     }
+
 
     // Update is called once per frame
     void Update()
@@ -33,13 +48,38 @@ public class EmemyBulletScript : MonoBehaviour
     }
 
 
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("KnightPlayer"))
+        // Hit player
+        if (other.CompareTag("KnightPlayer"))
         {
+            PlayerController player = other.GetComponent<PlayerController>();
+            Health health = other.GetComponent<Health>();
+
+            // BLOCK CHECK
+            if (player != null && player.IsBlocking && player.IsFacing(transform.position))
+            {
+                // Block successful
+                Destroy(gameObject);
+                return;
+            }
+
+            // Not blocking → take damage
+            if (health != null)
+            {
+                health.Damage(1);
+            }
+
             Destroy(gameObject);
+            return;
         }
+
+        // Prevent enemy damaging itself
+        if (other.CompareTag("Enemy"))
+            return;
     }
+
 
 
 }

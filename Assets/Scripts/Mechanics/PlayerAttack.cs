@@ -68,7 +68,7 @@ public class PlayerAttack : MonoBehaviour
 
 
 
-    public IEnumerator DamageWhileSlashIsActive()
+    /*public IEnumerator DamageWhileSlashIsActive()
     {
 
         ShouldBeDamaging=true;
@@ -97,9 +97,8 @@ public class PlayerAttack : MonoBehaviour
 
                 if (iDeflectable != null && !iDeflectables.Contains(iDeflectable))
                 {
-                    Vector2 deflectDir = (hits[i].transform.position - transform.position).normalized;
-                    iDeflectable.deflect(deflectDir);
-
+                    
+                    iDeflectable.deflect(transform.right);
                     iDeflectables.Add(iDeflectable);
                 }
             }
@@ -110,14 +109,58 @@ public class PlayerAttack : MonoBehaviour
 
         ReturnAttackablesAndDeflectables();
         
+    }*/
+
+    public IEnumerator DamageWhileSlashIsActive()
+    {
+        ShouldBeDamaging = true;
+
+        while (ShouldBeDamaging)
+        {
+            hits = Physics2D.CircleCastAll(
+                attackTransform.position,
+                attackRange,
+                transform.right,
+                0f,
+                attackableLayer
+            );
+
+            for (int i = 0; i < hits.Length; i++)
+            {
+                IDamgeable iDamgeable =
+                    hits[i].collider.GetComponent<IDamgeable>();
+
+                // ✅ DAMAGE ONLY ONCE PER SLASH
+                if (iDamgeable != null && !iDamgeables.Contains(iDamgeable))
+                {
+                    iDamgeables.Add(iDamgeable);
+                    iDamgeable.Damage(damageAmount);
+                }
+
+                IDeflectable iDeflectable =
+                    hits[i].collider.GetComponent<IDeflectable>();
+
+                // ✅ DEFLECT ONLY ONCE
+                if (iDeflectable != null && !iDeflectables.Contains(iDeflectable))
+                {
+                    iDeflectables.Add(iDeflectable);
+                    iDeflectable.deflect(transform.right);
+                }
+            }
+
+            yield return null;
+        }
+
+        ReturnAttackablesAndDeflectables();
     }
+
 
 
     public void ReturnAttackablesAndDeflectables()
     {
         foreach (IDamgeable thingWasDamaged in iDamgeables)
         {
-            thingWasDamaged.HasTakenDamage = false;
+            //thingWasDamaged.HasTakenDamage = false;
         }
 
         iDamgeables.Clear();
