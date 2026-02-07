@@ -63,6 +63,8 @@ namespace Platformer.Mechanics
         private InputAction m_AttackAction;
         private InputAction m_BlockAction;
 
+        public CoinManager cm;
+
 
         public Bounds Bounds => collider2d.bounds;
 
@@ -262,6 +264,15 @@ namespace Platformer.Mechanics
             Jumping,
             InFlight,
             Landed
+        }
+
+        void OnTriggerEnter2D(Collider2D other)
+        {
+            if(other.gameObject.CompareTag("Coin"))
+            {
+                Destroy(other.gameObject);
+                cm.coinCount++;
+            }
         }
 
 

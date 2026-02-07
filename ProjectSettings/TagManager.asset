@@ -8,6 +8,7 @@ TagManager:
   - KnightPlayer
   - Shield
   - Enemy
+  - Coin
   layers:
   - Default
   - TransparentFX

@@ -6,6 +6,7 @@ public class EmemyBulletScript : MonoBehaviour
 {
 
     private Collider2D shooterCollider;
+    public GameObject owner;
 
     private GameObject player;
     private Rigidbody2D rb;
