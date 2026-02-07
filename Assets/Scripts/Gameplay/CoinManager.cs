@@ -19,7 +19,7 @@ public class CoinManager : MonoBehaviour
     {
         coinText.text = coinCount.ToString() + " :";
 
-        if(coinCount >= 2 && !doorDestroyed)
+        if(coinCount >= 20 && !doorDestroyed)
         {
             doorDestroyed = true;
             Destroy(Door);
