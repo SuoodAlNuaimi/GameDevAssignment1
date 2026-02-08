@@ -16,6 +16,11 @@ namespace Platformer.Mechanics
     public class PlayerController : KinematicObject
     {
 
+        [Header("Sounds")]
+        public AudioClip coinSound;
+        public AudioClip dashAudio;
+
+
 
         [Header("Dash")]
         public float dashSpeed = 20f;
@@ -199,6 +204,9 @@ namespace Platformer.Mechanics
 
             float direction = spriteRenderer.flipX ? -1f : 1f;
             velocity = new Vector2(direction * dashSpeed, 0);
+
+            if (audioSource && dashAudio)
+                audioSource.PlayOneShot(dashAudio);
         }
 
         void UpdateDash()
@@ -270,6 +278,9 @@ namespace Platformer.Mechanics
         {
             if(other.gameObject.CompareTag("Coin"))
             {
+                if (audioSource && coinSound)
+                audioSource.PlayOneShot(coinSound);
+
                 Destroy(other.gameObject);
                 cm.coinCount++;
             }
