@@ -85,12 +85,6 @@ AnimatorController:
   m_Name: Player
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: ATTACK
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
   - m_Name: velocityX
     m_Type: 1
     m_DefaultFloat: 0
@@ -262,28 +256,14 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 1102101735027427872}
     m_Position: {x: 408, y: -360, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1876111260224093370}
-    m_Position: {x: 732.7999, y: -162.50641, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 3089017447034369388}
-    m_Position: {x: 130, y: -500, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -1017261538480685510}
-    m_Position: {x: 441.11383, y: -116.75247, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1415635049220112271}
-    m_Position: {x: -440, y: -540, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 1101020438278029396}
   - {fileID: 1101979291509282352}
-  - {fileID: 4119154082151828672}
-  - {fileID: -5050988896102483250}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -160, y: -610, z: 0}
+  m_AnyStatePosition: {x: -156, y: -600, z: 0}
   m_EntryPosition: {x: -108, y: 96, z: 0}
   m_ExitPosition: {x: 168, y: 96, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
